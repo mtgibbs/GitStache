@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LibGit2Sharp;
 using Color = System.Windows.Media.Color;
 using DataFormats = System.Windows.DataFormats;
 using DragDropEffects = System.Windows.DragDropEffects;
@@ -28,6 +29,9 @@ namespace GitStache
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private Repository _CurrentRepository;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -67,6 +71,10 @@ namespace GitStache
                     // I only want folders
                     // TODO: Deal with stupid crap from users
                     CurrentRepoLabel.Content = files[0];
+                    using (var repo = new Repository(files[0]))
+                    {
+                        _CurrentRepository = repo;
+                    }
                 }
 
             }
