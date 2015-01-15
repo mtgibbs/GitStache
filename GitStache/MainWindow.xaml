@@ -23,8 +23,17 @@
 
     <Grid>
 
-        <Label Name="CurrentRepoLabel"  HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="274" AllowDrop="True" Drop="DropBox_Drop"
-                 DragOver="DropBox_DragOver" DragLeave="DropBox_DragLeave" Background="#FFE2E2E2" FontSize="10" />
+        <Label Name="CurrentRepoLabel"
+               HorizontalAlignment="Left"
+               Height="66"
+               VerticalAlignment="Top"
+               Width="274"
+               AllowDrop="True"
+               Drop="CurrentRepoLabel_Drop"
+               DragOver="CurrentRepoLabel_DragOver"
+               DragLeave="CurrentRepoLabel_DragLeave"
+               Background="#FFE2E2E2"
+               FontSize="10" />
 
         <tb:TaskbarIcon
             x:Name="TrayIcon"
@@ -33,7 +42,15 @@
             ToolTipText="git-stache"
             DoubleClickCommand="{commands:ToggleWindowVisibilityCommand}"
             DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
-        <ListBox Name="StachesListBox" HorizontalAlignment="Left" Height="305" Margin="0,66,0,0" VerticalAlignment="Top" Width="274"/>
+        <ListBox
+            Name="StachesListBox"
+            HorizontalAlignment="Left"
+            Height="270"
+            Margin="0,66,0,0"
+            VerticalAlignment="Top"
+            Width="274" />
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Width="75" Click="Delete_Click" />
+        <Button Content="Apply" HorizontalAlignment="Left" Margin="90,341,0,0" VerticalAlignment="Top" Width="75" />
         <!--<Label Name="CurrentRepoLabel" Content="Label" HorizontalAlignment="Left" Margin="78,40,0,0" VerticalAlignment="Top" />-->
 
     </Grid>

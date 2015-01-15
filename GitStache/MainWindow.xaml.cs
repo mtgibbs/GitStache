@@ -26,7 +26,7 @@ namespace GitStache
             }
         }
 
-        private void DropBox_DragOver(object sender, DragEventArgs e)
+        private void CurrentRepoLabel_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -40,13 +40,13 @@ namespace GitStache
             }
         }
 
-        private void DropBox_DragLeave(object sender, DragEventArgs e)
+        private void CurrentRepoLabel_DragLeave(object sender, DragEventArgs e)
         {
             var listbox = sender as Label;
             listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
         }
 
-        private void DropBox_Drop(object sender, DragEventArgs e)
+        private void CurrentRepoLabel_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -65,6 +65,16 @@ namespace GitStache
 
             var listbox = sender as Label;
             listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs args)
+        {
+            _currentRepository.Stashes.Remove(StachesListBox.SelectedIndex);
+        }
+
+        private void Apply_Click(object sender, RoutedEventArgs args)
+        {
+           var stash =  _currentRepository.Stashes[StachesListBox.SelectedIndex];
         }
 
         private void PopulateGitInfo()
