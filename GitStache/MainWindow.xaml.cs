@@ -10,11 +10,20 @@ namespace GitStache
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Repository _CurrentRepository;
+        private SaveConfiguration _configuration;
+        private Repository _currentRepository;
 
         public MainWindow()
         {
+            _configuration = new SaveConfiguration().ReadFromFile();
+
             InitializeComponent();
+
+            if (!string.IsNullOrEmpty(_configuration.CurrentRepositoryFilepath))
+            {
+                _currentRepository = new Repository(_configuration.CurrentRepositoryFilepath);
+                this.PopulateGitInfo();
+            }
         }
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
@@ -47,21 +56,29 @@ namespace GitStache
                 {
                     // I only want folders
                     // TODO: Deal with stupid crap from users
-                    CurrentRepoLabel.Content = files[0];
-                    using (var repo = new Repository(files[0]))
-                    {
-                        _CurrentRepository = repo;
-
-                        foreach (var stash in repo.Stashes)
-                        {
-                            StachesListBox.Items.Add(stash.Message);
-                        }
-                    }
+                    _configuration.CurrentRepositoryFilepath = files[0];
+                    
+                    _configuration.SaveToFile();
+                    this.PopulateGitInfo();
                 }
             }
 
             var listbox = sender as Label;
             listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
+        }
+
+        private void PopulateGitInfo()
+        {
+            CurrentRepoLabel.Content = this._configuration.CurrentRepositoryFilepath;
+            using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
+            {
+                _currentRepository = repo;
+                
+                foreach (var stash in repo.Stashes)
+                {
+                    StachesListBox.Items.Add(stash.Message);
+                }
+            }
         }
     }
 }
