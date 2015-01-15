@@ -70,7 +70,9 @@ namespace GitStache
         {
             using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
             {
-                repo.Stashes.Remove(StachesListBox.SelectedIndex);
+                var index = StachesListBox.SelectedIndex;
+                repo.Stashes.Remove(index);
+                StachesListBox.Items.RemoveAt(index);
             }
            
         }
