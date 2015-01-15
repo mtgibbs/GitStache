@@ -1,26 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LibGit2Sharp;
-using Color = System.Windows.Media.Color;
-using DataFormats = System.Windows.DataFormats;
-using DragDropEffects = System.Windows.DragDropEffects;
-using DragEventArgs = System.Windows.DragEventArgs;
-using Label = System.Windows.Controls.Label;
-using ListBox = System.Windows.Controls.ListBox;
 
 namespace GitStache
 {
@@ -29,14 +10,11 @@ namespace GitStache
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private Repository _CurrentRepository;
 
         public MainWindow()
         {
             InitializeComponent();
-
-           
         }
 
         private void DropBox_DragOver(object sender, DragEventArgs e)
@@ -63,8 +41,7 @@ namespace GitStache
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                
-                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 
                 if (files.Length > 0)
                 {
@@ -74,17 +51,17 @@ namespace GitStache
                     using (var repo = new Repository(files[0]))
                     {
                         _CurrentRepository = repo;
+
+                        foreach (var stash in repo.Stashes)
+                        {
+                            StachesListBox.Items.Add(stash.Message);
+                        }
                     }
                 }
-
             }
 
             var listbox = sender as Label;
             listbox.Background = new SolidColorBrush(Color.FromRgb(226, 226, 226));
         }
     }
-
-    
-
-    
 }
