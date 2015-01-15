@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using GitSharp;
+using GitSharp.Commands;
 using Repository = LibGit2Sharp.Repository;
 
 namespace GitStache
