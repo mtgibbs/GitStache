@@ -6,6 +6,7 @@
         Title="GitStache"
         Height="400"
         Width="280"
+        Icon="/Content/SystemTrayIcon.ico"
         Background="White"
         ResizeMode="NoResize">
 
