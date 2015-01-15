@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using LibGit2Sharp;
 
@@ -10,8 +11,7 @@ namespace GitStache
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SaveConfiguration _configuration;
-        private Repository _currentRepository;
+        private readonly SaveConfiguration _configuration;
 
         public MainWindow()
         {
@@ -21,7 +21,6 @@ namespace GitStache
 
             if (!string.IsNullOrEmpty(_configuration.CurrentRepositoryFilepath))
             {
-                _currentRepository = new Repository(_configuration.CurrentRepositoryFilepath);
                 this.PopulateGitInfo();
             }
         }
@@ -69,12 +68,19 @@ namespace GitStache
 
         private void Delete_Click(object sender, RoutedEventArgs args)
         {
-            _currentRepository.Stashes.Remove(StachesListBox.SelectedIndex);
+            using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
+            {
+                repo.Stashes.Remove(StachesListBox.SelectedIndex);
+            }
+           
         }
 
         private void Apply_Click(object sender, RoutedEventArgs args)
         {
-           var stash =  _currentRepository.Stashes[StachesListBox.SelectedIndex];
+            using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
+            {
+                var stash = repo.Stashes[StachesListBox.SelectedIndex];
+            }
         }
 
         private void PopulateGitInfo()
@@ -82,7 +88,6 @@ namespace GitStache
             CurrentRepoLabel.Content = this._configuration.CurrentRepositoryFilepath;
             using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
             {
-                _currentRepository = repo;
                 
                 foreach (var stash in repo.Stashes)
                 {
