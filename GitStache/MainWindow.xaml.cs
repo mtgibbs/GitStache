@@ -2,7 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using LibGit2Sharp;
+using GitSharp;
+using Repository = LibGit2Sharp.Repository;
 
 namespace GitStache
 {
@@ -79,10 +80,12 @@ namespace GitStache
 
         private void Apply_Click(object sender, RoutedEventArgs args)
         {
-            using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
-            {
-                var stash = repo.Stashes[StachesListBox.SelectedIndex];
-            }
+            Git.Init(_configuration.CurrentRepositoryFilepath);
+
+            //using (var repo = new Repository(_configuration.CurrentRepositoryFilepath))
+            //{
+            //    var stash = repo.Stashes[StachesListBox.SelectedIndex];
+            //}
         }
 
         private void PopulateGitInfo()
